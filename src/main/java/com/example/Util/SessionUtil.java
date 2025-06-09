@@ -35,4 +35,13 @@ public class SessionUtil {
 
         return Long.valueOf(response.getBody().get("id").toString());
     }
+    public String extractSessionCookie(HttpServletRequest request) {
+        return Arrays.stream(request.getCookies())
+                .filter(c -> "JSESSIONID".equals(c.getName()))
+                .findFirst()
+                .map(c -> "JSESSIONID=" + c.getValue())
+                .orElseThrow(() -> new RuntimeException("Sesión no encontrada"));
+    }
+    
 }
+

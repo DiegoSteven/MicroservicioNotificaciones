@@ -1,6 +1,10 @@
 package com.example.services.Notificators;
 
 import org.springframework.stereotype.Component;
+
+import com.example.clientmodels.EventDTO;
+import com.example.clientmodels.PositionDTO;
+import com.example.clientmodels.UserDTO;
 import com.example.models.*;
 @Component
 public class NotificatorCommand implements Notificator {
@@ -9,10 +13,9 @@ public class NotificatorCommand implements Notificator {
     public String getType() {
         return "command";
     }
-
-    @Override
-    public void send(NotificationModel notification, User user, Event event, Position position) {
-        if (notification.getCommandId() <= 0) {
+@Override
+    public void send(NotificationModel notification, UserDTO user, EventDTO event, PositionDTO position) {
+        if (notification.getCommandId() == null || notification.getCommandId() <= 0) {
             System.err.println("❌ commandId no definido. No se ejecuta ningún comando.");
             return;
         }

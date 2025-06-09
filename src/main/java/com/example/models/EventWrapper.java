@@ -1,16 +1,35 @@
 package com.example.models;
 
+import com.example.clientmodels.DeviceDTO;
+import com.example.clientmodels.EventDTO;
+import com.example.clientmodels.PositionDTO;
+
 public class EventWrapper {
-    private Event event;
-    private Device device;
-    private Position position;
+    private EventDTO event;
+    private DeviceDTO device;
+    private PositionDTO position;
 
-    public Event getEvent() { return event; }
-    public void setEvent(Event event) { this.event = event; }
+    public EventDTO getEvent() {
+        return event;
+    }
 
-    public Device getDevice() { return device; }
-    public void setDevice(Device device) { this.device = device; }
+    public void setEvent(EventDTO event) {
+        this.event = event;
+    }
 
-    public Position getPosition() { return position; }
-    public void setPosition(Position position) { this.position = position; }
+    public DeviceDTO getDevice() {
+        return device;
+    }
+
+    public void setDevice(DeviceDTO device) {
+        this.device = device;
+    }
+
+    public PositionDTO getPosition() {
+        return position;
+    }
+
+    public void setPosition(PositionDTO position) {
+        this.position = position;
+    }
 }

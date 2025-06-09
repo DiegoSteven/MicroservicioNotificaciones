@@ -2,7 +2,12 @@ package com.example.services.Notificators;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import com.example.models.*;
+
+import com.example.clientmodels.UserDTO;
+import com.example.clientmodels.EventDTO;
+import com.example.clientmodels.PositionDTO;
+import com.example.models.NotificationMessage;
+import com.example.models.NotificationModel;
 import com.example.services.NotificationFormatter;
 
 @Component
@@ -21,7 +26,7 @@ public class NotificatorWeb implements Notificator {
     }
 
     @Override
-    public void send(NotificationModel notification, User user, Event event, Position position) {
+    public void send(NotificationModel notification, UserDTO user, EventDTO event, PositionDTO position) {
         NotificationMessage message = formatter.format(notification, user, event, position);
 
         // Simulación de envío por WebSocket o log

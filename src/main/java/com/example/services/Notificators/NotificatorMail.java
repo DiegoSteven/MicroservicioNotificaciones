@@ -3,6 +3,9 @@ package com.example.services.Notificators;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.example.clientmodels.EventDTO;
+import com.example.clientmodels.PositionDTO;
+import com.example.clientmodels.UserDTO;
 import com.example.models.*;
 import com.example.services.NotificationFormatter;
 
@@ -25,7 +28,7 @@ public class NotificatorMail implements Notificator {
     }
     
     @Override
-    public void send(NotificationModel notification, User user, Event event, Position position) {
+    public void send(NotificationModel notification, UserDTO user, EventDTO event, PositionDTO position) {
         if (user.getEmail() == null || user.getEmail().isBlank()) {
             System.err.println("❌ Usuario sin email. Notificación ignorada.");
             return;

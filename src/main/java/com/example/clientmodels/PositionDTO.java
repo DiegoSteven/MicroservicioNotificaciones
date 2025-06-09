@@ -1,55 +1,61 @@
-package com.example.models;
-
-import jakarta.persistence.*;
-import java.util.Date;
+package com.example.clientmodels;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-@Entity
+import java.util.Date;
+import java.util.Map;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Table(name = "tc_positions")
-public class Position {
+public class PositionDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
-    @Column(name = "protocol")
+    private Map<String, Object> attributes;
+
+    @JsonProperty("deviceId")
+    private Long deviceId;
+
     private String protocol;
 
-    @Column(name = "servertime")
-    private Date serverTime = new Date();
+    @JsonProperty("serverTime")
+    private Date serverTime;
 
-    @Column(name = "devicetime")
+    @JsonProperty("deviceTime")
     private Date deviceTime;
 
-    @Column(name = "fixtime")
+    @JsonProperty("fixTime")
     private Date fixTime;
 
-    @Column(name = "valid")
     private boolean valid;
 
-    @Column(name = "latitude")
     private double latitude;
 
-    @Column(name = "longitude")
     private double longitude;
 
-    @Column(name = "altitude")
     private double altitude;
 
-    @Column(name = "speed")
-    private double speed;  // en nudos
+    private double speed;
 
-    @Column(name = "course")
     private double course;
 
-    @Column(name = "accuracy")
     private double accuracy;
 
-    @Column(name = "address")
+    @JsonProperty("address")
     private String address;
+
+    // Campos opcionales que podrían venir en algunas versiones de Traccar
+    @JsonProperty("outdated")
+    private Boolean outdated;
+
+    @JsonProperty("network")
+    private Object network; // Puede ser un objeto o null
+
+    @JsonProperty("geofenceIds")
+    private Object geofenceIds; // Puede ser un array o null
+
+    // Constructor vacío
+    public PositionDTO() {}
 
     // Getters y Setters
 
@@ -59,6 +65,22 @@ public class Position {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Map<String, Object> getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(Map<String, Object> attributes) {
+        this.attributes = attributes;
+    }
+
+    public Long getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(Long deviceId) {
+        this.deviceId = deviceId;
     }
 
     public String getProtocol() {
@@ -106,9 +128,6 @@ public class Position {
     }
 
     public void setLatitude(double latitude) {
-        if (latitude < -90 || latitude > 90) {
-            throw new IllegalArgumentException("Latitude out of range");
-        }
         this.latitude = latitude;
     }
 
@@ -117,9 +136,6 @@ public class Position {
     }
 
     public void setLongitude(double longitude) {
-        if (longitude < -180 || longitude > 180) {
-            throw new IllegalArgumentException("Longitude out of range");
-        }
         this.longitude = longitude;
     }
 
@@ -161,5 +177,29 @@ public class Position {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public Boolean getOutdated() {
+        return outdated;
+    }
+
+    public void setOutdated(Boolean outdated) {
+        this.outdated = outdated;
+    }
+
+    public Object getNetwork() {
+        return network;
+    }
+
+    public void setNetwork(Object network) {
+        this.network = network;
+    }
+
+    public Object getGeofenceIds() {
+        return geofenceIds;
+    }
+
+    public void setGeofenceIds(Object geofenceIds) {
+        this.geofenceIds = geofenceIds;
     }
 }

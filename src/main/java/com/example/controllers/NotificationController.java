@@ -1,52 +1,32 @@
 package com.example.controllers;
 
 import com.example.models.NotificationMessage;
-
 import com.example.Dto.Typed;
 import com.example.Util.SessionUtil;
 import com.example.models.NotificationModel;
-import com.example.models.User;
 import com.example.repositories.NotificationRepository;
-import com.example.repositories.UserRepository;
 import com.example.services.NotificationService;
 
 import jakarta.servlet.http.HttpServletRequest;
-
-import java.security.Principal;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/notifications")
-@CrossOrigin(origins = "*") // opcional: permite llamadas desde otros dominios (como tu frontend)
+@CrossOrigin(origins = "*")
 public class NotificationController {
 
     @Autowired
     private NotificationService notificationService;
 
     @Autowired
-    private UserRepository UserRepository;
-
-    @Autowired
     private NotificationRepository notificationRepository;
-
-    @Autowired
-    private RestTemplate restTemplate;
-
-    @Autowired
-    private NotificationService notificationExtraService;
 
     @Autowired
     private SessionUtil sessionUtil;
@@ -75,6 +55,7 @@ public class NotificationController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Notificación no encontrada"));
     }
 
+    // Update
     @PutMapping("/{id}")
     public NotificationModel update(
             @PathVariable Long id,
@@ -85,6 +66,7 @@ public class NotificationController {
 
         return notificationService.update(id, updated, userId);
     }
+    // Eliminar
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id, HttpServletRequest request) {
@@ -99,19 +81,21 @@ public class NotificationController {
 
     @GetMapping("/types")
     public List<Typed> getTypes() {
-        return notificationExtraService.getEventTypes();
+        return notificationService.getEventTypes();
     }
 
     @GetMapping("/notificators")
     public List<Typed> getNotificators(@RequestParam(defaultValue = "false") boolean announcement) {
-        return notificationExtraService.getNotificators(announcement);
+        return notificationService.getNotificators(announcement);
     }
+
+
 
     @PostMapping("/test")
     public ResponseEntity<Void> sendTest(HttpServletRequest request) {
         try {
             Long userId = sessionUtil.extractUserIdFromSession(request);
-            notificationService.sendTest(userId);
+            notificationService.sendTest(request,userId);
             return ResponseEntity.noContent().build();
         } catch (HttpClientErrorException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -124,7 +108,7 @@ public class NotificationController {
     public ResponseEntity<Void> sendTestByType(@PathVariable String notificator, HttpServletRequest request) {
         try {
             Long userId = sessionUtil.extractUserIdFromSession(request);
-            notificationService.sendTestByType(notificator, userId);
+            notificationService.sendTestByType(request, notificator, userId);
             return ResponseEntity.noContent().build();
         } catch (HttpClientErrorException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -132,6 +116,7 @@ public class NotificationController {
             return ResponseEntity.internalServerError().build();
         }
     }
+    
     
 
     @PostMapping("/send/{notificator}")
@@ -142,7 +127,7 @@ public class NotificationController {
             HttpServletRequest request) {
         try {
             Long currentUserId = sessionUtil.extractUserIdFromSession(request);
-            notificationService.sendMessage(notificator, userId, message, currentUserId);
+            notificationService.sendMessage(request, notificator, userId, message);
             return ResponseEntity.noContent().build();
         } catch (HttpClientErrorException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -152,3 +137,4 @@ public class NotificationController {
     }
 
 }
+

@@ -8,26 +8,35 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-
 @Repository
 public interface NotificationRepository extends JpaRepository<NotificationModel, Long> {
 
     List<NotificationModel> findByType(String type);
+
     List<NotificationModel> findByTypeAndAlwaysTrue(String type);
 
     @Query(value = """
-                SELECT n.* FROM tc_notifications n
-                INNER JOIN tc_user_notification u ON n.id = u.notificationid
-                WHERE u.userid = :userId
-            """, nativeQuery = true)
+        SELECT n.* FROM tc_notifications n
+        INNER JOIN tc_user_notification un ON n.id = un.notificationid
+        WHERE un.userid = :userId
+    """, nativeQuery = true)
     List<NotificationModel> findByUserId(@Param("userId") Long userId);
 
     @Query(value = """
-                SELECT COUNT(*) FROM tc_user_notification
-                WHERE userid = :userId AND notificationid = :notificationId
-            """, nativeQuery = true)
-    Integer countByUserAndNotification(@Param("userId") Long userId, @Param("notificationId") Long notificationId);
+        SELECT n.* FROM tc_notifications n
+        INNER JOIN tc_device_notification dn ON n.id = dn.notificationid
+        WHERE dn.deviceid = :deviceId
+    """, nativeQuery = true)
+    List<NotificationModel> findByDeviceId(@Param("deviceId") Long deviceId);
 
+    @Query(value = """
+        SELECT n.* FROM tc_notifications n
+        INNER JOIN tc_group_notification gn ON n.id = gn.notificationid
+        WHERE gn.groupid = :groupId
+    """, nativeQuery = true)
+    List<NotificationModel> findByGroupId(@Param("groupId") Long groupId);
+
+    // 🔥 Este es el método que necesitas
     @Query(value = """
                 SELECT EXISTS (
                     SELECT 1 FROM tc_user_notification
@@ -35,5 +44,4 @@ public interface NotificationRepository extends JpaRepository<NotificationModel,
                 )
             """, nativeQuery = true)
     int isLinkedToUser(@Param("userId") Long userId, @Param("notificationId") Long notificationId);
-
 }

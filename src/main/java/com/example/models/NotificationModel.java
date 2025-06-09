@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import java.util.HashMap;
 import java.util.Map;
 import com.example.Util.AttributesConverter;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 @Table(name = "tc_notifications")
 public class NotificationModel {
@@ -37,6 +39,7 @@ public class NotificationModel {
 
     @Column(name = "always")
     private boolean always;
+
 
     // Getters y Setters
 
@@ -103,4 +106,8 @@ public class NotificationModel {
     public void setAlways(boolean always) {
         this.always = always;
     }
+
+
 }
+
+

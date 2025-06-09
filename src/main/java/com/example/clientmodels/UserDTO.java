@@ -1,96 +1,85 @@
-package com.example.models;
+package com.example.clientmodels;
 
-import jakarta.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
-import com.example.Util.AttributesConverter;
 
-@Entity
-@Table(name = "tc_users")
-public class User {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class UserDTO {
 
-    @Id
-    @Column(name = "id")
     private Long id;
 
-    @Column(name = "name")
+    private Map<String, Object> attributes;
+
     private String name;
 
-    @Column(name = "login")
     private String login;
 
-    @Column(name = "email")
     private String email;
 
-    @Column(name = "phone")
     private String phone;
 
-    @Column(name = "readonly")
     private boolean readonly;
 
-    @Column(name = "administrator")
     private boolean administrator;
 
-    @Column(name = "map")
     private String map;
 
-    @Column(name = "latitude")
     private double latitude;
 
-    @Column(name = "longitude")
     private double longitude;
 
-    @Column(name = "zoom")
     private int zoom;
 
-    @Column(name = "coordinateformat")
     private String coordinateFormat;
 
-    @Column(name = "disabled")
     private boolean disabled;
 
-    @Column(name = "expirationtime")
     private Date expirationTime;
 
-    @Column(name = "devicelimit")
     private int deviceLimit;
 
-    @Column(name = "userlimit")
     private int userLimit;
 
-    @Column(name = "devicereadonly")
     private boolean deviceReadonly;
 
-    @Column(name = "limitcommands")
     private boolean limitCommands;
 
-    @Column(name = "disablereports")
     private boolean disableReports;
 
-    @Column(name = "fixedemail")
     private boolean fixedEmail;
 
-    @Column(name = "poilayer")
     private String poiLayer;
 
-    @Column(name = "totpkey")
     private String totpKey;
 
-    @Column(name = "temporary")
     private boolean temporary;
 
-    @Convert(converter = AttributesConverter.class)
-    @Column(name = "attributes")
-    private Map<String, Object> attributes = new HashMap<>();
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String password;
+
+    // Constructor vacío
+    public UserDTO() {}
 
     // Getters y Setters
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Map<String, Object> getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(Map<String, Object> attributes) {
+        this.attributes = attributes;
     }
 
     public String getName() {
@@ -269,11 +258,11 @@ public class User {
         this.temporary = temporary;
     }
 
-    public Map<String, Object> getAttributes() {
-        return attributes;
+    public String getPassword() {
+        return password;
     }
 
-    public void setAttributes(Map<String, Object> attributes) {
-        this.attributes = attributes;
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

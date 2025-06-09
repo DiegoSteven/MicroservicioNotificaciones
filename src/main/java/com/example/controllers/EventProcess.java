@@ -1,5 +1,6 @@
 package com.example.controllers;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,24 +20,20 @@ public class EventProcess {
     private NotificationService notificationService;
 
     @PostMapping
-    public ResponseEntity<String> handleEvent(@RequestBody String rawJson) {
+    public ResponseEntity<String> handleEvent(@RequestBody String rawJson, HttpServletRequest request) {
         System.out.println("📩 JSON recibido de Traccar:");
         System.out.println(rawJson);
-    
+
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             EventWrapper wrapper = objectMapper.readValue(rawJson, EventWrapper.class);
-    
-            notificationService.processEvent(wrapper.getEvent(), wrapper.getDevice(), wrapper.getPosition());
-            System.out.println("EvntProcess Successfully" );
-            return ResponseEntity.ok("Evento procesado");
+
+            notificationService.processEvent(request, wrapper.getEvent(), wrapper.getDevice(), wrapper.getPosition());
+            System.out.println("✅ EventProcess Successfully");
+            return ResponseEntity.ok("Evento procesado correctamente");
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.badRequest().body("Error al procesar JSON");
+            return ResponseEntity.badRequest().body("❌ Error al procesar el JSON");
         }
     }
-    
-
-
-
 }
