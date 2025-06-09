@@ -42,7 +42,7 @@ public class NotificatorTelegram implements Notificator {
 
         restTemplate.postForEntity(url, body, String.class);
 
-        System.out.println("✅ Mensaje de Telegram enviado a chatId: " + chatId);
+        System.out.println("Mensaje de Telegram enviado a chatId: " + chatId);
     }
 }
 

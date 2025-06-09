@@ -15,21 +15,21 @@ public class NotificationFormatter {
     public NotificationMessage format(NotificationModel notification, UserDTO user, EventDTO event, PositionDTO position) {
         StringBuilder body = new StringBuilder();
 
-        body.append("📢 Evento: ").append(event.getType());
+        body.append("Evento: ").append(event.getType());
 
         if (user.getEmail() != null) {
             body.append("\n👤 Usuario: ").append(user.getEmail());
         }
 
         if (position != null) {
-            body.append("\n📍 Ubicación: ")
+            body.append("\nUbicación: ")
                 .append(position.getLatitude())
                 .append(", ")
                 .append(position.getLongitude());
         }
 
         if (notification.getDescription() != null) {
-            body.append("\n📝 Descripción: ").append(notification.getDescription());
+            body.append("\nDescripción: ").append(notification.getDescription());
         }
 
         return new NotificationMessage("Notificación: " + event.getType(), body.toString());
@@ -39,23 +39,22 @@ public class NotificationFormatter {
     public static String formatMessage(EventDTO event, DeviceDTO device, PositionDTO position) {
         StringBuilder body = new StringBuilder();
 
-        body.append("📢 Evento: ").append(event.getType());
+        body.append("Evento: ").append(event.getType());
 
         if (device != null) {
-            body.append("\n📱 Dispositivo: ").append(device.getName());
-            body.append("\n🔢 Unique ID: ").append(device.getUniqueId());
+            body.append("\nDispositivo: ").append(device.getName());
+            body.append("\nUnique ID: ").append(device.getUniqueId());
         }
 
         if (position != null) {
-            body.append("\n📍 Ubicación: ")
+            body.append("\nUbicación: ")
                 .append(position.getLatitude())
                 .append(", ")
                 .append(position.getLongitude())
-                .append("\n🚀 Velocidad: ").append(position.getSpeed()).append(" nudos");
+                .append("\nVelocidad: ").append(position.getSpeed()).append(" nudos");
         }
 
-        body.append("\n📅 Fecha evento: ").append(event.getEventTime());
-
+        body.append("\nFecha evento: ").append(event.getEventTime());
         return body.toString();
     }
 }

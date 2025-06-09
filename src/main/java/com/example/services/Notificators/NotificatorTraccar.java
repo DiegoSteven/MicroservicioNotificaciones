@@ -26,7 +26,7 @@ public class NotificatorTraccar implements Notificator {
     @Override
     public void send(NotificationModel notification, User user, Event event, Position position) {
         if (!user.getAttributes().containsKey("notificationTokens")) {
-            System.err.println("❌ Usuario sin tokens de notificación.");
+            System.err.println("Usuario sin tokens de notificación.");
             return;
         }
 
@@ -52,7 +52,7 @@ public class NotificatorTraccar implements Notificator {
         HttpEntity<Map<String, Object>> request = new HttpEntity<>(body, headers);
 
         ResponseEntity<String> response = restTemplate.postForEntity(pushUrl, request, String.class);
-        System.out.println("🚀 Notificación Traccar enviada (status: " + response.getStatusCode() + ")");
+        System.out.println("Notificación Traccar enviada (status: " + response.getStatusCode() + ")");
     }
 }
 

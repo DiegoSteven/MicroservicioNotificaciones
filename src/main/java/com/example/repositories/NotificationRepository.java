@@ -36,7 +36,6 @@ public interface NotificationRepository extends JpaRepository<NotificationModel,
     """, nativeQuery = true)
     List<NotificationModel> findByGroupId(@Param("groupId") Long groupId);
 
-    // 🔥 Este es el método que necesitas
     @Query(value = """
                 SELECT EXISTS (
                     SELECT 1 FROM tc_user_notification

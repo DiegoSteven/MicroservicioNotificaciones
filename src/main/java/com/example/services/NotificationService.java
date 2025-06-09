@@ -148,7 +148,7 @@ public class NotificationService {
 
             if (notification.getNotificators() != null && notification.getNotificators().contains("mail")) {
                 String correoDestino = "acrdkr@gmail.com"; // Puedes reemplazar por user.getEmail()
-                mailService.send(correoDestino, "📢 Evento: " + event.getType(), message);
+                mailService.send(correoDestino, "Evento: " + event.getType(), message);
             }
 
             if (notification.getNotificators() != null && notification.getNotificators().contains("web")) {

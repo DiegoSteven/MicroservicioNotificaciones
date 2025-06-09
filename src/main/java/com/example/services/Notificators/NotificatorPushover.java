@@ -51,7 +51,7 @@ public class NotificatorPushover implements Notificator {
 
         ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
 
-        System.out.println("📲 Pushover enviado (status: " + response.getStatusCode() + ")");
+        System.out.println("Pushover enviado (status: " + response.getStatusCode() + ")");
     }
 }
     */
